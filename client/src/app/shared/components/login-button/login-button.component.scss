@@ -1,0 +1,12 @@
+.login-button{
+  &__image{
+    min-width: 240px;
+    position: absolute;
+    &--inactive{
+      opacity: 0;
+    }
+    &--disabled{
+      min-width: 240px;
+    }
+  }
+}

@@ -1,0 +1,31 @@
+<div
+  class="login-button"
+  (mouseleave)="changeState('normal')"
+  (mouseenter)="changeState('focus')"
+  (mousedown)="changeState('pressed')"
+  (mouseup)="changeState('focus')"
+>
+  <img
+    class="login-button__image"
+    [ngClass]="{ 'login-button__image--inactive': state !== 'normal' }"
+    [src]="size === 'small' ? srcSmall.normal : srcBig.normal"
+    alt="login-button"
+  />
+  <img
+    class="login-button__image"
+    [ngClass]="{ 'login-button__image--inactive': state !== 'focus' }"
+    [src]="size === 'small' ? srcSmall.focus : srcBig.focus"
+    alt="login-button"
+  />
+  <img
+    class="login-button__image"
+    [ngClass]="{ 'login-button__image--inactive': state !== 'pressed' }"
+    [src]="size === 'small' ? srcSmall.pressed : srcBig.pressed"
+    alt="login-button"
+  />
+  <img
+    class="login-button__image--disabled"
+    [src]="size === 'small' ? srcSmall.disabled : srcBig.disabled"
+    alt="login-button"
+  />
+</div>

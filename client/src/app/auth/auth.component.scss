@@ -1,0 +1,36 @@
+@import 'vars';
+
+.login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  &__box {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    min-width: 240px;
+    max-width: 480px;
+    height: 50%;
+    border-radius: 5px;
+    background: $gray;
+    box-shadow: 4px 6px 8px;
+  }
+  &__box-title{
+    width: 100%;
+    background: $primary;
+    margin: 0;
+    color: $off-white;
+    font-weight: bold;
+    text-align: center;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+  }
+  &__box-login{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+}

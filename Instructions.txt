@@ -1,0 +1,15 @@
+1) Install docker: https://www.docker.com/get-started
+2) Extract env.rar in this folder
+3) Open your terminal of choice in this folder and run: docker-compose up
+4) Go to http://localhost:4200/ in your favorite browser
+
+All set! wait a few minutes for docker to generate the image and create the containers.
+
+Next executions will be a lot faster as the image is cached.
+
+If you need to make changes to the package.json of any folder to add a dependency, stop
+the containers with CTR+C or CMD+C on mac and run: docker-compose up --build
+
+If you have build the images a couple of times, clear all the cached images as they will
+start to take a lot of space in your disk and the only image we care is the latest one.
+To clear all the cached images use: docker system prune

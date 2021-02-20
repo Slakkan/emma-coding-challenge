@@ -1,0 +1,49 @@
+version: '3'
+services: 
+  client:
+    restart: always
+    build:
+      context: ./client
+      dockerfile: dockerfile.dev
+    ports: 
+      - '4200:4200'
+      - '49153:49153'
+    volumes: 
+      - /app/client/node_modules
+      - ./client:/app/client
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+  server:
+    restart: always
+    build:
+      context: ./server
+      dockerfile: dockerfile.dev
+    ports: 
+      - '5000:5000'
+    volumes: 
+      - /app/server/node_modules
+      - ./server/src:/app/server/src
+    env_file: 
+      - ./server/src/environment/firebase.env
+      - ./server/src/environment/redis.env
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+  worker:
+    restart: always
+    build:
+      context: ./worker
+      dockerfile: dockerfile.dev
+    ports: 
+      - '6000:6000'
+    volumes: 
+      - /app/worker/node_modules
+      - ./worker/src:/app/worker/src
+    env_file: 
+      - ./worker/src/environment/redis.env
+      - ./worker/src/environment/firebase.env
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+  redis:
+    image: "redis:latest"
+    logging:
+      driver: none 
