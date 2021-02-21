@@ -3,6 +3,7 @@ import { from, Observable, zip } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AppClient } from '../models/client';
 import { AppUser } from '../models/user';
+import { arrayFromFirebaseObject } from './firebase-utils';
 
 const firebaseCredentials = {
   projectId: process.env.FIREBASE_PROJECT_ID,
@@ -24,32 +25,42 @@ export class FirebaseManager {
   constructor() { }
 
   getUser(uid: string): Observable<AppUser> {
-    return from(this.usersRef.get()).pipe(
+    return from(this.usersRef.child(uid).get()).pipe(
       map((dataSnapshot) => {
-        const userData = (dataSnapshot.toJSON() as { [key: string]: AppUser; })[uid];
-        const clientKeys = Object.values(userData.clientKeys);
+        const userData = dataSnapshot.toJSON() as AppUser;
+        const clientKeys = userData ? Object.values(userData.clientKeys) : [];
         return { ...userData, clientKeys };
       }),
     );
 
   }
 
-  getClients(uid: string): Observable<AppClient[]> {
+  getUserClients(uid: string): Observable<AppClient[]> {
     return zip(this.getAllClients(), this.getUser(uid)).pipe(
-      map(([clientsData, { clientKeys }]) => {
-        const clients: AppClient[] = [];
-        Object.entries(clientsData).forEach(([key, value]) => {
-          if (clientKeys.includes(key)) { clients.push(value); }
-        });
-        return clients;
+      map(([clients, { clientKeys }]) => {
+        return clients.filter(client => clientKeys.includes(client.key!));;
       })
     );
   }
 
-  getAllClients(): Observable<{ [key: string]: AppClient; }> {
+  getAllClients(): Observable<AppClient[]> {
     return from(this.clientsRef.get()).pipe(
       map((dataSnapshot) => {
-        return dataSnapshot.toJSON() as { [key: string]: AppClient; };
+        const clients = dataSnapshot.toJSON() as { [key: string]: AppClient; };
+        return arrayFromFirebaseObject<AppClient>(clients, true);
+      })
+    );
+  }
+
+  getAllUsers(): Observable<{ [key: string]: AppUser; }> {
+    return from(this.usersRef.get()).pipe(
+      map((dataSnapshot) => {
+        const userData = (dataSnapshot.toJSON() as { [key: string]: AppUser; });
+        Object.entries(userData).forEach(([uid, user]) => {
+          const clientKeys = arrayFromFirebaseObject<string>(user);
+          userData[uid].clientKeys = clientKeys;
+        });
+        return userData;
       })
     );
   }

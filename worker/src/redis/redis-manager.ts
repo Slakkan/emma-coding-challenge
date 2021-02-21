@@ -1,7 +1,7 @@
 // CONFIGURE REDIS
 import redis from "redis";
-import { forkJoin, from, Observable, of, zip } from "rxjs";
-import { map, switchMap } from "rxjs/operators";
+import { forkJoin, Observable, of, zip } from "rxjs";
+import { switchMap, tap } from "rxjs/operators";
 import { FirebaseManager } from '../firebase/firebase-manager';
 import { AppClient } from '../models/client';
 import { AppUser } from '../models/user';
@@ -19,7 +19,11 @@ export class RedisManager {
   subscriber = redis.createClient(redisConfig);
   publisher = redis.createClient(redisConfig);
   utils = new RedisUtils(this.client);
-  firebaseManager = new FirebaseManager()
+  firebaseManager = new FirebaseManager();
+
+  constructor() {
+    this.client.FLUSHDB();
+  }
 
   // ##########################################################################
   // Adds a new key=value pair in the collections users and clients
@@ -43,31 +47,43 @@ export class RedisManager {
     key: string,
     client: AppClient
   ): Observable<[number, number]> {
-    return this.utils.hgetObs<string[] | null>("users", uid).pipe(
-      switchMap((prevClientKeys) => {
-        let user;
-        if (prevClientKeys && prevClientKeys.length) {
-          user = {
-            clientKeys: [...prevClientKeys, key],
+    return this.utils.hgetObs<AppUser | null>("users", uid).pipe(
+      switchMap((userData) => {
+        let newUserData;
+        if (userData) {
+          newUserData = {
+            clientKeys: [...userData.clientKeys, key],
           };
         } else {
-          user = {
+          newUserData = {
             clientKeys: [key],
           };
         }
 
-        const setUsers = this.utils.hsetObs("users", uid, user)
-        const setClients = this.utils.hsetObs("clients", key, client)
+        const setUsers = this.utils.hsetObs("users", uid, newUserData);
+        const setClients = this.utils.hsetObs("clients", key, client);
         return zip(setUsers, setClients);
       })
     );
+  }
+
+  addClientList(clients: AppClient[], uid: string) {
+    let clientKeys: string[] = [];
+    clients.forEach(client => {
+      this.utils.hsetObs("clients", client.key!, client).subscribe();
+      clientKeys.push(client.key!);
+    });
+    this.utils.hsetObs("users", uid, { clientKeys }).subscribe();
+  }
+
+  putClient(client: AppClient): Observable<number> {
+    return this.utils.hsetObs("clients", client.key!, client);
   }
 
   getClients(uid: string): Observable<AppClient[]> {
     return this.utils.hgetObs<AppUser>("users", uid).pipe(
       switchMap((user) => {
         if (user) {
-          console.log("USER: " + JSON.stringify(user))
           let getDataCalls: Observable<AppClient>[] = [];
           user.clientKeys.forEach((clientKey) => {
             const clientObs = this.utils.hgetObs<AppClient>("clients", clientKey) as Observable<AppClient>;
@@ -75,7 +91,9 @@ export class RedisManager {
           });
           return forkJoin(getDataCalls);
         } else {
-          return this.firebaseManager.getClients(uid)
+          return this.firebaseManager.getUserClients(uid).pipe(tap(clients => {
+            this.addClientList(clients, uid);
+          }));
         }
       })
     );

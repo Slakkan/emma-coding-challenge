@@ -1,0 +1,95 @@
+<div class="container p-0 mt-5">
+  <form (ngSubmit)="onSubmit()" #clientForm="ngForm">
+    <div class="client-form row p-0 mx-2">
+      <div class="col-12">
+        <span class="client-form__header mt-3">Client Info</span>
+      </div>
+      <div class="col-12">
+        <hr class="client-form__line mt-0 mb-4 w-100">
+      </div>
+      <!-- NAME -->
+      <div class="client-form__container mb-2 col-12 col-md-6">
+        <label for="name" class="client-form__label">Name:</label>
+        <div class="client-form__input-container">
+          <input [(ngModel)]="client.firstName" #name="ngModel" name="name" required id="name"
+            class="client-form__input" [value]="client?.firstName">
+          <span [hidden]="name.valid || name.pristine" class="client-form__error py-1">This field is required</span>
+        </div>
+      </div>
+      <!-- LASTNAME -->
+      <div class="client-form__container mb-2 col-12 col-md-6">
+        <label for="lastName" class="client-form__label">Lastname:</label>
+        <div class="client-form__input-container">
+          <input [(ngModel)]="client.lastName" #lastName="ngModel" name="lastName" required id="lastName"
+            class="client-form__input" [value]="client?.lastName">
+          <span [hidden]="lastName.valid || lastName.pristine" class="client-form__error py-1">This field is
+            required</span>
+        </div>
+      </div>
+      <!-- EMAIL -->
+      <div class="client-form__container mb-2 col-12 col-md-6">
+        <label for="email" class="client-form__label">Email:</label>
+        <div class="client-form__input-container">
+          <input [(ngModel)]="client.email" #email="ngModel" name="email" required id="email" class="client-form__input"
+            [value]="client?.email">
+          <span [hidden]="email.valid || email.pristine" class="client-form__error py-1">This field is required</span>
+        </div>
+      </div>
+      <!-- PHONE -->
+      <div class="client-form__container mb-2 col-12 col-md-6">
+        <label for="phone" class="client-form__label">Phone:</label>
+        <div class="client-form__input-container">
+          <input [(ngModel)]="client.phone" #phone="ngModel" name="phone" required id="phone" class="client-form__input"
+            [value]="client?.phone">
+          <span [hidden]="phone.valid || phone.pristine" class="client-form__error py-1">This field is required</span>
+        </div>
+      </div>
+      <!-- COUNTRY -->
+      <div class="client-form__container mb-2 col-12 col-md-6">
+        <label class="client-form__label">Country:</label>
+        <div class="client-form__input-container">
+          <input [(ngModel)]="client.country" #country="ngModel" name="country" required id="country"
+            class="client-form__input" [value]="client?.country">
+          <span [hidden]="country.valid || country.pristine" class="client-form__error py-1">This field is
+            required</span>
+        </div>
+      </div>
+      <!-- CITY -->
+      <div class="client-form__container mb-2 col-12 col-md-6">
+        <label for="city" class="client-form__label">City:</label>
+        <div class="client-form__input-container">
+          <input [(ngModel)]="client.city" #city="ngModel" name="city" required id="city" class="client-form__input"
+            [value]="client?.city">
+          <span [hidden]="city.valid || city.pristine" class="client-form__error py-1">This field is required</span>
+        </div>
+      </div>
+      <!-- POSTAL CODE -->
+      <div class="client-form__container mb-2 col-12 col-md-6">
+        <label for="postalCode" class="client-form__label">PC:</label>
+        <div class="client-form__input-container">
+          <input [(ngModel)]="client.postalCode" #postalCode="ngModel" name="postalCode" required id="postalCode"
+            class="client-form__input" [value]="client?.postalCode">
+          <span [hidden]="postalCode.valid || postalCode.pristine" class="client-form__error py-1">This field is
+            required</span>
+        </div>
+      </div>
+      <!-- ACTIVE -->
+      <div class="client-form__container client-form__container--checkbox mb-2 col-12 col-md-6">
+        <label for="isActive" class="client-form__label">Active:</label>
+        <div class="client-form__input-container">
+          <input [(ngModel)]="client.isActive" #isActive="ngModel" name="isActive" id="isActive"
+            class="client-form__checkbox ml-2" type="checkbox" [checked]="client?.isActive">
+        </div>
+      </div>
+      <div class="col-12 d-flex justify-content-around mb-3">
+        <button (click)="onCancel()" type="button" class="client-form__button py-2 px-3">
+          CANCEL
+        </button>
+        <button type="submit" [disabled]="!clientForm.form.valid" class="client-form__button py-2 px-3"
+          [ngClass]="{'client-form__button--disabled': !clientForm.form.valid}">
+          SUBMIT
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

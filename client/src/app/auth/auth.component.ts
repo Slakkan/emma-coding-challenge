@@ -1,10 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import firebase from 'firebase/app';
-import 'firebase/auth';
 import { from, Subscription, of, forkJoin } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { environment } from 'src/environments/environment';
-import { clientMock } from 'src/mocks/clientsMock';
 import { AuthService } from '../shared/services/auth.service';
 import { UserService } from '../shared/services/user.service';
 
@@ -14,33 +12,16 @@ import { UserService } from '../shared/services/user.service';
   styleUrls: ['./auth.component.scss'],
 })
 export class AuthComponent implements OnInit, OnDestroy {
-  firebaseApp = firebase.initializeApp(environment.firebaseConfig);
-  firebaseProvider = new firebase.auth.GoogleAuthProvider();
-
   subscriptions: Subscription[] = [];
 
-  constructor(private authService: AuthService, private userService: UserService) { }
+  constructor(private authService: AuthService, private router: Router, private ngZone: NgZone) { }
 
   ngOnInit(): void { }
 
   onClick() {
-    const loginSub = from(
-      this.firebaseApp.auth().signInWithPopup(this.firebaseProvider)
-    )
-      .pipe(
-        switchMap((credential) => {
-          const user = credential.user as firebase.User;
-          const userObs = of(user);
-          const tokenIdObs = from(user.getIdToken());
-          return forkJoin([userObs, tokenIdObs]);
-        })
-      )
-      .subscribe(([user, token]) => {
-        this.authService.setFirebaseUser = user;
-        this.authService.setFirebaseToken = token;
-        this.userService.getClients();
-        setTimeout(() => this.userService.postClient(clientMock), 1000);
-      });
+    const loginSub = this.authService.loginWithPopUp().subscribe(() => {
+      this.ngZone.run(() => this.router.navigate(['clients']));
+    });
 
     this.subscriptions.push(loginSub);
   }

@@ -53,6 +53,10 @@ export class FirebaseManager {
     });
   }
 
+  putClient(client: AppClient): Promise<string> {
+    return this.clientsRef.child(client.key!).set(client)
+  }
+
   // ##########################################################################
   // If this is the first client added it pushes the data of type AppUser to
   // firebase. If it already exists adds the clientKey to the clientKeys

@@ -1,0 +1,61 @@
+<div class="container mb-2" (click)="onExpand($event)">
+  <div *ngIf="!isExpanded; else expanded" class="client-card row" [ngClass]="{'client-card--expanded': animate}">
+    <div class="client-card__item col-5" [ngClass]="{'client-card__item--transitioning': isTransitioning}">
+      {{client.firstName}} {{client.lastName}}
+    </div>
+    <div class="client-card__item col-5" [ngClass]="{'client-card__item--transitioning': isTransitioning}">
+      <span class="client-card__span">{{client.country}} / {{client.city}} / {{client.postalCode}}</span>
+    </div>
+    <div class="client-card__icons-container col-2">
+      <img (click)="onEdit()" id="client-card-edit" style="width: 24px; height: 24px;"
+        src="/assets/icons/mode_edit-24px.svg" alt="edit">
+      <img style="width: 24px; height: 24px;" src="/assets/icons/expand_more-24px.svg" alt="show-more">
+    </div>
+    <ng-content></ng-content>
+  </div>
+</div>
+
+<ng-template #expanded>
+  <div class="client-card row" [ngClass]="{'client-card--expanded': animate}">
+    <!-- FIRST ROW -->
+    <div class="col-10" *ngIf="isExpanded">
+      <div class="row">
+        <div class="client-card__item col-12 col-md-4 p-2"
+          [ngClass]="{'client-card__item--transitioning': isTransitioning}">
+          <div class="client-card__title">Name</div> {{client.firstName}}
+        </div>
+        <div class="client-card__item col-12 col-md-4 p-2"
+          [ngClass]="{'client-card__item--transitioning': isTransitioning}">
+          <div class="client-card__title">Lastname</div> {{client.lastName}}
+        </div>
+        <div class="client-card__item col-12 col-md-4 p-2"
+          [ngClass]="{'client-card__item--transitioning': isTransitioning}">
+          <div class="client-card__title">Phone</div>{{client.phone}}
+        </div>
+      </div>
+    </div>
+
+    <div class="client-card__icons-container col-2 p-2" *ngIf="isExpanded">
+      <img (click)="onEdit()" id="client-card-edit" style="width: 24px; height: 24px;"
+        src="/assets/icons/mode_edit-24px.svg" alt="edit">
+      <img style="width: 24px; height: 24px;" src="/assets/icons/expand_less-24px.svg" alt="show-less">
+    </div>
+    <!-- SECOND ROW -->
+    <div class="col-10" *ngIf="isExpanded">
+      <div class="row">
+        <div class="client-card__item client-card__item--email col-12 col-md-4 p-2"
+          [ngClass]="{'client-card__item--transitioning': isTransitioning}">
+          <div class="client-card__title">Email</div> {{client.email}}
+        </div>
+        <div class="client-card__item col-12 col-md-4 p-2"
+          [ngClass]="{'client-card__item--transitioning': isTransitioning}">
+          <div class="client-card__title">Country</div>{{client.country}}
+        </div>
+        <div class="client-card__item col-12 col-md-4 p-2"
+          [ngClass]="{'client-card__item--transitioning': isTransitioning}">
+          <div class="client-card__title">City</div> {{client.city}} / {{client.postalCode}}
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

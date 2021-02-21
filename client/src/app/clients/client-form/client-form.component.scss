@@ -1,0 +1,84 @@
+@import "vars";
+
+.client-form {
+  background: $gray;
+  border-radius: 4px;
+  font-size: 16px;
+  &__header {
+    display: flex;
+    align-items: flex-end;
+    font-size: 24px;
+    font-weight: bold;
+    user-select: none;
+  }
+  &__line {
+    border: 1px solid $secondary;
+  }
+  &__container {
+    display: flex;
+    justify-content: space-between;
+    &--checkbox {
+      justify-content: flex-start;
+    }
+  }
+  &__label {
+    font-weight: bold;
+    user-select: none;
+  }
+  &__input-container {
+    display: flex;
+    flex-direction: column;
+  }
+  &__input {
+    display: flex;
+    width: 100%;
+    border-radius: 8px;
+    font-size: 16px;
+  }
+  &__error {
+    color: $error;
+    font-size: 14px;
+    font-weight: bold;
+  }
+  &__checkbox {
+    width: 20px;
+    height: 20px;
+    justify-self: flex-start;
+  }
+  &__button {
+    background: $primary;
+    border-radius: 5px;
+    color: $off-white;
+    font-size: 18px;
+    line-height: 24px;
+    font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+    user-select: none;
+    outline: none;
+    border: 1px solid $off-white;
+    cursor: pointer;
+    &:hover {
+      color: $primary;
+      background: $secondary;
+    }
+    &:active {
+      color: $off-white;
+    }
+    &--disabled{
+      background-color: $gray;
+      &:hover{
+        color: $off-white;
+        background: $gray;
+        cursor: not-allowed;
+      }
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .client-form {
+    font-size: 20px;
+    &__input {
+      font-size: 20px;
+    }
+  }
+}

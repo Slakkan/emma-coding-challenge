@@ -1,0 +1,50 @@
+@import "vars";
+
+.headers {
+  display: flex;
+  align-items: flex-end;
+  font-size: 24px;
+  font-weight: bold;
+  &__select {
+    outline: none;
+    border-radius: 5px;
+    height: 24px;
+    background: $primary;
+    border: 1px solid $off-white;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+  }
+  &__select-option {
+    font-weight: bold;
+    color: $off-white;
+    outline: none;
+    border: 1px solid $off-white;
+    &:last-child {
+      border-bottom-left-radius: 5px;
+      border-bottom-right-radius: 5px;
+    }
+  }
+  &__icon {
+    display: flex;
+    justify-content: space-between;
+    background: $primary;
+    border-radius: 5px;
+    color: $off-white;
+    font-size: 18px;
+    line-height: 24px;
+    border: 1px solid $off-white;
+    cursor: pointer;
+    &:hover {
+      color: $primary;
+      background: $secondary;
+    }
+    &:active {
+      color: $off-white;
+      background: $primary;
+    }
+  }
+}
+
+select::-ms-expand {
+  display: none;
+}

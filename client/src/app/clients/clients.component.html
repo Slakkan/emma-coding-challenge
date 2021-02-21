@@ -1,0 +1,12 @@
+<div class="container p-0 mt-5">
+  <div class="row p-0">
+    <div class="clients p-2 col-10 col-md-8 offset-1 offset-md-2">
+      <!-- HEADERS -->
+      <app-client-headers [paginationActions]="paginationActions"></app-client-headers>
+      <!-- PAGINATION -->
+      <app-pagination [array]="clients" [actions]="paginationActions" (pageChanged)="onPageChanged($event)"></app-pagination>
+      <!-- CARDS -->
+      <app-client-card *ngFor="let client of paginatedClients" [client]="client"></app-client-card>
+    </div>
+  </div>
+</div>
