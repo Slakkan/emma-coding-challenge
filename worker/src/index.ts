@@ -5,6 +5,7 @@ const redisManager = new RedisManager();
 
 redisManager.subscriber.subscribe("POST_CLIENTS");
 redisManager.subscriber.subscribe("GET_CLIENTS");
+redisManager.subscriber.subscribe("PUT_CLIENTS");
 
 redisManager.subscriber.on("message", (channel, message) => {
   switch (channel) {
@@ -14,6 +15,9 @@ redisManager.subscriber.on("message", (channel, message) => {
     case "GET_CLIENTS":
       handleGetClients(message);
       break;
+    case "PUT_CLIENTS":
+      handlePutClients(message);
+      break;
     default:
       break;
   }
@@ -22,6 +26,11 @@ redisManager.subscriber.on("message", (channel, message) => {
 function handlePostClients(message: string) {
   const { uid, key, client } = JSON.parse(message);
   redisManager.addClient(uid, key, client).subscribe();
+}
+
+function handlePutClients(message: string) {
+  const { client } = JSON.parse(message);
+  redisManager.putClient(client).subscribe();
 }
 
 function handleGetClients(message: string) {

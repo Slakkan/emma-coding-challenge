@@ -1,0 +1,27 @@
+<div class="container mt-3">
+  <div class="row pagination my-2">
+    <div class="pagination__container pagination__container--left col-1 p-0">
+      <img (click)="onGoToFirst()" class="pagination__icon" [ngClass]="{'pagination__icon--disabled':isPrevDisabled}"
+        src="/assets/icons/first_page-24px.svg" alt="last-page">
+    </div>
+    <div class="pagination__container pagination__container--left col-1 p-0">0</div>
+    <div class="pagination__container pagination__container--left col-1 p-0">
+      <img (click)="onPrevPage()" class="pagination__icon" [ngClass]="{'pagination__icon--disabled':isPrevDisabled}"
+        src="/assets/icons/navigate_before-24px.svg" alt="last-page">
+    </div>
+    <div class="pagination__container pagination__container--right col-1 p-0">{{this.trailingDotsPrev}}</div>
+    <div class="pagination__container pagination__container--left col-1 p-0">{{this.prevPage}}</div>
+    <div class="pagination__container pagination__container--center col-2 p-0">{{this.currentPage}}</div>
+    <div class="pagination__container pagination__container--right col-1 p-0">{{this.nextPage}}</div>
+    <div class="pagination__container pagination__container--left col-1 p-0">{{this.trailingDotsNext}}</div>
+    <div class="pagination__container pagination__container--right col-1 p-0">
+      <img (click)="onNextPage()" class="pagination__icon" [ngClass]="{'pagination__icon--disabled':isNextDisabled}"
+        src="/assets/icons/navigate_next-24px.svg" alt="last-page">
+    </div>
+    <div class="pagination__container pagination__container--right col-1 p-0">{{this.lastPage}}</div>
+    <div class="pagination__container pagination__container--right col-1 p-0">
+      <img (click)="onGoToLast()" class="pagination__icon" [ngClass]="{'pagination__icon--disabled':isNextDisabled}"
+        src="/assets/icons/last_page-24px.svg" alt="last-page">
+    </div>
+  </div>
+</div>

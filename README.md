@@ -1,3 +1,12 @@
+# FEATURE: CLIENTS PAGE
+**version:** 1.01
+
+## Features
+- **clients table:** a table with a list of your clients
+- **Create clients:** you can now add data to the database in a user friendly way
+- **Edit clients:** added functionallity to edit clients
+- **Pagination:** you can choose how many clients to see per page
+- **Sorting:** for now you can only sort by client name ascending or descending
 
 ---
 # INITIAL COMMIT
@@ -40,7 +49,7 @@ Basically the backend only does authorization and acts as a middleware for the w
 ### Worker Architecture
 The worker has two main functions:
 - Route the requests from the server to redis if the information was cached before or get it from the permanent database in firebase and cache it when it comes back.
-- Do heavy intensive processes like paginating the data and sorting.
+- <span style="color:red;text-decoration: line-through;">Do heavy intensive processes like paginating the data and sorting.</span>. After reading the requirements more carefully I realized this is asked to be done in the frontend. Still the worker is going to be useful for the queries.
 
 ### Database Architecture
 Firebase requests are more efficient with plain data structures as stated in their

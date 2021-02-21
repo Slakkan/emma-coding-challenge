@@ -1,0 +1,46 @@
+@import "vars";
+
+.client-card {
+  background: $off-white;
+  border-radius: 5px;
+  transition: max-height 1.2s;
+  transition: min-height 0.6s;
+  min-height: 40px;
+  max-height: 40px;
+  border: 2px solid $gray;
+  cursor: pointer;
+  &--expanded {
+    min-height: 120px;
+    max-height: 800px;
+    transition: all 1.2s;
+  }
+  &:hover {
+    border: 3px solid $primary;
+  }
+  &__item {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    opacity: 1;
+    transition: all 1.2s;
+    &--transitioning {
+      opacity: 0;
+    }
+    &--email{
+      word-break: break-all;
+    }
+  }
+  &__span {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+  &__icons-container {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 8px;
+  }
+  &__title {
+    font-weight: bold;
+  }
+}

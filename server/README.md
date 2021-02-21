@@ -1,3 +1,20 @@
+# FEATURE: CLIENTS PAGE
+**version:** 1.01
+
+### Global
+- Modified Clients interface
+
+### type-utils
+- Adjusted utils to conform with the new client structure
+
+### firebase-manager
+- Added put method
+
+### PUT/clients endpoint
+- Created the endpoint
+- Checked if data is correct
+- Check if data was uploaded correctly
+- Save data to redis
 
 ---
 # INITIAL COMMIT

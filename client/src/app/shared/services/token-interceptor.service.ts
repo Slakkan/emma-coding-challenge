@@ -12,6 +12,7 @@ import { AuthService } from './auth.service';
 export class TokenInterceptor implements HttpInterceptor {
 
   headers = {
+    'Access-Control-Allow-Origin': 'http://localhost:4200',
     'content-type': 'application/json',
   };
 

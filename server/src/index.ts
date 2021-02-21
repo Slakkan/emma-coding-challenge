@@ -39,16 +39,42 @@ app.post("/clients", async (req, res) => {
     isDataCorrect = true;
     // save client data on firebase. If it doesn't save correctly throws and error
     const key = await fbManager.addClient(client);
+    client.key = key
     // save clientKey into firebase userdata
     await fbManager.addClientToUser(uid, key);
     isDataSaved = true;
 
-    // Note: as it is new data there is no chance of being in redis so there
-    // is no point in calling the worker for this
     const payload = { uid, key, client };
     redisPublisher.publish("POST_CLIENTS", JSON.stringify(payload));
-    res.status(200)
-    res.send({message: "Client successfully added to the database"})
+    res.status(200);
+    res.send({ message: "Client successfully added to the database" });
+  } catch {
+    // Handle errors
+    if (!isDataCorrect) {
+      res.status(400);
+      res.send("Incorrect data");
+    }
+    else if (!isDataSaved) {
+      res.status(500);
+      res.send("Could not save data to firebase");
+    }
+  }
+});
+
+app.put('/clients', async (req, res) => {
+  let isDataCorrect, isDataSaved = false;
+  try {
+    // check if the object in the body has all the correct data
+    const client = await isDataAppClient(req.body.client);
+    isDataCorrect = true;
+    // replace data in firebase with the updated values
+    await fbManager.putClient(client);
+    isDataSaved = true;
+
+    const payload = { client };
+    redisPublisher.publish("PUT_CLIENTS", JSON.stringify(payload));
+    res.status(200);
+    res.send({ message: "Client updated successfully" });
   } catch {
     // Handle errors
     if (!isDataCorrect) {
