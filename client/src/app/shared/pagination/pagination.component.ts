@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
-import { PaginationAction, PaginationActionOptions, PaginationActionsEnum } from './pagination.model';
+import { PaginationAction, PaginationActionOptions, PaginationActionsEnum, PaginationFiltersEnum } from './pagination.model';
 import { PaginationService } from './pagination.service';
 
 @Component({
@@ -28,6 +28,9 @@ export class PaginationComponent<T> implements OnInit, OnDestroy {
   trailingDotsPrev = '';
   trailingDotsNext = '';
 
+  appliedFilters: { id: string, type: PaginationFiltersEnum; options: PaginationActionOptions; }[] = [];
+  filteredArray: T[] = [];
+
   subscriptions: Subscription[] = [];
 
   @Output() pageChanged = new EventEmitter<T[]>();
@@ -53,9 +56,21 @@ export class PaginationComponent<T> implements OnInit, OnDestroy {
     else if (action === PaginationActionsEnum.SORT) {
       if (options && options.property) {
         this.array = this.paginationService.sortStrings(this.array, options.property, options.order);
-        this.paginate();
+        this.applyFilters();
       } else {
-        throw new Error("THE ACTION SORT REQUIERS THE PROPERTY OPTION");
+        throw new Error("THIS ACTION REQUIERS OPTIONS: property");
+      }
+    } else if (action === PaginationActionsEnum.ADD_FILTER) {
+      if (options && options.filterId && options.filterType && options.property && options.value) {
+        this.addFilter(options);
+      } else {
+        throw new Error("THIS ACTION REQUIERS OPTIONS: filterId, filterType, property, value");
+      }
+    } else if (action === PaginationActionsEnum.REMOVE_FILTER) {
+      if (options && options.filterId) {
+        this.removeFilter(options.filterId);
+      } else {
+        throw new Error("THIS ACTION REQUIERS OPTION: filterId");
       }
     }
   }
@@ -98,11 +113,48 @@ export class PaginationComponent<T> implements OnInit, OnDestroy {
     this.pageChanged.emit(this.paginatedItems[this.currentPage]);
   }
 
+  addFilter(options: PaginationActionOptions) {
+    const isIdUnique = !this.appliedFilters.find(filter => filter.id === options.filterId);
+    if (!isIdUnique) {
+      throw new Error(`Filter with id: ${options.filterId} already exists!`);
+    }
+    this.appliedFilters.push({ id: options.filterId!, type: options.filterType!, options });
+    this.applyFilters();
+  }
+
+  removeFilter(id: string) {
+    this.appliedFilters = this.appliedFilters.filter(filter => filter.id !== id);
+    this.applyFilters();
+  }
+
+  applyFilters() {
+    let array = [...this.array];
+    this.appliedFilters.forEach(filter => {
+      if (filter.type === PaginationFiltersEnum.FILTER_PROPERTY_EQUALS_VALUE) {
+        const { property, value } = filter.options;
+        if (property && value) {
+          array = this.paginationService.filterPropertyEqualsValue(array, property, value);
+        } else {
+          throw new Error("You need to supply property and value options for this filter");
+        }
+      } else if (filter.type === PaginationFiltersEnum.FILTER_STRING_INCLUDES_VALUE) {
+        const { property, value } = filter.options;
+        if (property && value) {
+          array = this.paginationService.filterStringIncludesValue(array, property, value);
+        } else {
+          throw new Error("You need to supply property and value options for this filter");
+        }
+      }
+    });
+    this.filteredArray = array
+    this.paginate();
+  }
+
   paginate() {
-    const array = [...this.array];
+    const array = this.appliedFilters.length ? [...this.filteredArray] : [...this.array];
     const len = array.length;
     const ipp = this.itemsPerPage;
-    const pages = Math.floor((len - 1) / ipp);
+    const pages = len === 0 ? 0 : Math.floor((len - 1) / ipp);
 
     let paginatedArray: T[][] = [];
     for (let i = 0; i <= pages; i++) {

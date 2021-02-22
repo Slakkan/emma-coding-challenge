@@ -1,5 +1,29 @@
 
 ---
+# FEATURE: QUERIES
+**version:** 1.02
+
+### GLOBAL
+- Re-styled the app color
+- Re-styled spacing
+- Re-styled element positions.
+
+### client-card.component
+- Added white versions of expand_less, expand_more and edit icons 
+
+### client-headers.component
+- Added search by name input
+- Added view/hide inactive
+
+### pagination.component
+- Added filter functionallity
+- Added new models to make easy to implement such features
+
+### pagination.service
+- Added filter by property equals filter
+- Added filter by string includes filter
+
+---
 # FEATURE: CLIENTS PAGE
 **version:** 1.01
 

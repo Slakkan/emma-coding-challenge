@@ -1,8 +1,12 @@
 <div class="container">
-  <div class="headers row p-0 pt-2">
-    <div class="col-8 p-0">Client List</div>
+  <div class="headers row p-0 pt-4">
+    <div class="col-12 p-0 mb-4 d-flex justify-content-between">
+      <input placeholder="Seach by name" (input)="searchInput.next($event)" class ="headers__filter-input" />
+      <img (click)="onAdd()" class="headers__icon ml-3" src="/assets/icons/add_circle-24px.svg" alt="add">
+    </div>
+    <div class="col-8 p-0">CLIENT LIST</div>
     <div class="col-4 p-0 d-flex justify-content-end">
-      <select (change)="onSelect($event)" class="headers__select px-2">
+      <select (change)="onSelect($event)" class="headers__select px-1">
         <option class="headers__select-option">5</option>
         <option class="headers__select-option">10</option>
         <option class="headers__select-option">15</option>
@@ -10,7 +14,7 @@
         <option class="headers__select-option">25</option>
       </select>
       <img (click)="onSort()" class="headers__icon ml-3" src="/assets/icons/sort-24px.svg" alt="sort">
-      <img (click)="onAdd()" class="headers__icon ml-3" src="/assets/icons/add_circle-24px.svg" alt="add">
+      <img (click)="onViewInactive()" class="headers__icon ml-3" [src]="viewInactive ? viewInactiveIcon : viewOnlyActiveIcon" alt="view-inactive">
     </div>
   </div>
 </div>

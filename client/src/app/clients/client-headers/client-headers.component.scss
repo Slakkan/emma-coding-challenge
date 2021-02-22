@@ -5,6 +5,7 @@
   align-items: flex-end;
   font-size: 24px;
   font-weight: bold;
+  color: $off-white;
   &__select {
     outline: none;
     border-radius: 5px;
@@ -13,6 +14,11 @@
     border: 1px solid $off-white;
     -webkit-appearance: none;
     -moz-appearance: none;
+    color: $off-white;
+    font-weight: bold;
+    &:hover{
+      background: darken($color: $primary, $amount: 20);;
+    }
   }
   &__select-option {
     font-weight: bold;
@@ -22,6 +28,19 @@
     &:last-child {
       border-bottom-left-radius: 5px;
       border-bottom-right-radius: 5px;
+    }
+  }
+  &__filter-input {
+    border: 1px solid $off-white;
+    border-radius: 5px;
+    background: $primary;
+    outline: none;
+    &::placeholder{
+      font-weight: bold;
+      color: $off-white;
+    }
+    &:focus{
+      border: 1px solid darken($color: $primary, $amount: 20);
     }
   }
   &__icon {
@@ -35,8 +54,8 @@
     border: 1px solid $off-white;
     cursor: pointer;
     &:hover {
-      color: $primary;
-      background: $secondary;
+      color: $secondary;
+      background: darken($color: $primary, $amount: 20);;
     }
     &:active {
       color: $off-white;
