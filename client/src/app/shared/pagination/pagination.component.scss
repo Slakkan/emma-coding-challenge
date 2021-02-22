@@ -23,16 +23,16 @@
     background: $primary;
     border: 1px solid $off-white;
     &--disabled{
-      background: $gray;
+      background: $blue;
       &:hover{
-        background: $gray!important;
+        background: $blue!important;
       }
       &:active{
-        background: $gray!important;
+        background: $blue!important;
       }
     }
     &:hover {
-      background: $secondary;
+      background: darken($color: $primary, $amount: 20);;
     }
     &:active {
       background: $primary;

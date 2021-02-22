@@ -1,7 +1,9 @@
 @import "vars";
 
 .client-form {
-  background: $gray;
+  background: $blue;
+  color: $off-white;
+  font-weight: bold;
   border-radius: 4px;
   font-size: 16px;
   &__header {
@@ -57,17 +59,17 @@
     border: 1px solid $off-white;
     cursor: pointer;
     &:hover {
-      color: $primary;
-      background: $secondary;
+      color: $blue;
+      background: darken($color: $primary, $amount: 20);
     }
     &:active {
       color: $off-white;
     }
-    &--disabled{
-      background-color: $gray;
-      &:hover{
+    &--disabled {
+      background-color: $blue;
+      &:hover {
         color: $off-white;
-        background: $gray;
+        background: $blue;
         cursor: not-allowed;
       }
     }

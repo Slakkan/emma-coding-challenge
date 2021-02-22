@@ -16,6 +16,15 @@ export class ClientCardComponent implements OnInit {
   animate = false;
   isTransitioning = false;
 
+  editIcon = '/assets/icons/mode_edit-24px.svg'
+  editIconWhite = '/assets/icons/mode_edit-white-24px.svg'
+
+  expandMore = '/assets/icons/expand_more-24px.svg'
+  expandMoreWhite = '/assets/icons/expand_more-white-24px.svg'
+
+  expandLess = '/assets/icons/expand_less-24px.svg'
+  expandLessWhite = '/assets/icons/expand_less-white-24px.svg'
+
   constructor(private router: Router) { }
 
   ngOnInit(): void {

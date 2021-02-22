@@ -5,14 +5,19 @@
   border-radius: 5px;
   transition: max-height 1.2s;
   transition: min-height 0.6s;
-  min-height: 40px;
-  max-height: 40px;
-  border: 2px solid $gray;
+  min-height: 60px;
+  max-height: 60px;
+  border: 2px solid $blue;
   cursor: pointer;
   &--expanded {
     min-height: 120px;
     max-height: 800px;
     transition: all 1.2s;
+  }
+  &--inactive {
+    color: $off-white;
+    background: $blue;
+    border: 1px solid $off-white;
   }
   &:hover {
     border: 3px solid $primary;
@@ -23,10 +28,13 @@
     flex-direction: column;
     opacity: 1;
     transition: all 1.2s;
+    &--expanded {
+      justify-content: flex-start;
+    }
     &--transitioning {
       opacity: 0;
     }
-    &--email{
+    &--email {
       word-break: break-all;
     }
   }
@@ -38,9 +46,23 @@
   &__icons-container {
     display: flex;
     justify-content: flex-end;
+    align-items: center;
     padding-top: 8px;
+    &--expanded{
+      align-items: flex-start;
+    }
   }
   &__title {
     font-weight: bold;
+  }
+}
+
+@media (min-width: 768px) {
+  .client-card{
+    &__icons-container{
+      &--expanded{
+        align-items: center;
+      }
+    }
   }
 }

@@ -7,8 +7,8 @@ export class PaginationService {
   constructor() { }
 
   sortStrings(array: any[], property: string, order: PaginationOrder) {
-    const isDescending = order === "descending"
-    const newArray = [...array]
+    const isDescending = order === "descending";
+    const newArray = [...array];
     newArray.sort((a, b) => {
       const A = a[property].toUpperCase();
       const B = b[property].toUpperCase();
@@ -20,6 +20,15 @@ export class PaginationService {
         return 0;
       }
     });
-    return newArray
+    return newArray;
+  }
+
+  filterPropertyEqualsValue(array: any[], property: string, value: any) {
+    return array.filter(item => item[property] === value);
+  }
+
+  filterStringIncludesValue(array: any[], property: string, value: string) {
+    const valueLowerCase = value.toLowerCase();
+    return array.filter(item => (item[property] as string).toLowerCase().includes(valueLowerCase));
   }
 }
