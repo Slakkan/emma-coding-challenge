@@ -7,7 +7,7 @@ import { ClientsResolver } from './resolvers/clients.resolver';
 
 const routes: Routes = [
   { path: '', component: ClientsComponent, resolve: [ClientsResolver] },
-  { path: 'new', component: ClientFormComponent, resolve: [ClientsResolver] },
+  { path: 'new', component: ClientFormComponent },
   { path: 'edit/:key', component: ClientFormComponent, resolve: [ClientsResolver] }
 ];
 

@@ -20,6 +20,7 @@ export interface PaginationActionOptions {
   // GENERAL
   property?: string;
   itemsPerPage?: number;
+  refreshData?: any[];
   // SORT
   order?: PaginationOrder;
   // FILTER

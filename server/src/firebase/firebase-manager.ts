@@ -1,6 +1,8 @@
 import admin from "firebase-admin";
 import { AppClient } from "../models/client";
 import { NextFunction, Request, Response } from 'express';
+import { arrayFromFirebaseObject } from './firebase-utils';
+import { AppUser } from '../models/user';
 
 const firebaseCredentials = {
   projectId: process.env.FIREBASE_PROJECT_ID,
@@ -54,7 +56,18 @@ export class FirebaseManager {
   }
 
   putClient(client: AppClient): Promise<string> {
-    return this.clientsRef.child(client.key!).set(client)
+    return this.clientsRef.child(client.key!).set(client);
+  }
+
+  async deleteClient(uid: string, key: string): Promise<string> {
+    return new Promise(async (resolve, reject) => {
+      const user = (await this.usersRef.child(uid).get()).val();
+      const clientKeys = arrayFromFirebaseObject(user.clientKeys).filter(clientKey => clientKey !== key);
+      await this.usersRef.child(uid).update({ clientKeys });
+      await this.clientsRef.child(key).remove().catch((err) => reject(err));
+      resolve("Client deleted successfully")
+    });
+
   }
 
   // ##########################################################################

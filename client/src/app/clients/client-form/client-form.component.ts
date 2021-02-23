@@ -21,9 +21,16 @@ export class ClientFormComponent implements OnInit {
     isActive: true
   };
 
+  path = this.activatedRoute.snapshot.url[0].path;
+
   constructor(private activatedRoute: ActivatedRoute, private userService: UserService, private router: Router) { }
 
   ngOnInit(): void {
+    if (this.path === "edit") {
+      this.restoreClientValues();
+    }
+  }
+  restoreClientValues() {
     const clients = this.activatedRoute.snapshot.data[0] as AppClient[];
     const keyParam = this.activatedRoute.snapshot.params.key;
     const client = clients.find(client => client.key === keyParam);
@@ -33,12 +40,11 @@ export class ClientFormComponent implements OnInit {
   }
 
   onSubmit() {
-    const path = this.activatedRoute.snapshot.url[0].path
-    if (path === "new") {
+    if (this.path === "new") {
       this.userService.postClient(this.client).subscribe(() => {
         this.router.navigate(['clients']);
       });
-    } else if(path === "edit") {
+    } else if (this.path === "edit") {
       this.userService.updateClient(this.client).subscribe(() => {
         this.router.navigate(['clients']);
       });

@@ -34,7 +34,7 @@
     &--transitioning {
       opacity: 0;
     }
-    &--email {
+    &--break {
       word-break: break-all;
     }
   }
@@ -45,7 +45,7 @@
   }
   &__icons-container {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
     padding-top: 8px;
     &--expanded{

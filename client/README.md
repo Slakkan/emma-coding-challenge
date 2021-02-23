@@ -1,4 +1,17 @@
 
+# FEATURE: DELETE-CLIENT
+**version:** 1.02
+
+# client-card.component
+- Added trashcan icon
+- Added functionallity to call delete endpoint
+
+# pagination.component
+- Added functionallity to trigger a refresh with new data
+
+# user.service
+- Added delete endpoint
+
 ---
 # FEATURE: QUERIES
 **version:** 1.02

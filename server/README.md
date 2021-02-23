@@ -1,3 +1,15 @@
+# FEATURE: DELETE-CLIENT
+**version:** 1.02
+
+### POST/clients endpoint
+- Created the endpoint
+- Delete data from firebase
+- Send payload to worker
+
+### firebase-manager.ts
+- Added deleteClient method
+
+---
 # FEATURE: CLIENTS PAGE
 **version:** 1.01
 

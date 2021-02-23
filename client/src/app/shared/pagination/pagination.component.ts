@@ -47,6 +47,9 @@ export class PaginationComponent<T> implements OnInit, OnDestroy {
   }
 
   onAction(action: PaginationActionsEnum, options?: PaginationActionOptions) {
+    if (options?.refreshData) {
+      this.array = options.refreshData;
+    }
     if (action === PaginationActionsEnum.PAGINATE) {
       if (options?.itemsPerPage) {
         this.itemsPerPage = options.itemsPerPage;
@@ -146,7 +149,7 @@ export class PaginationComponent<T> implements OnInit, OnDestroy {
         }
       }
     });
-    this.filteredArray = array
+    this.filteredArray = array;
     this.paginate();
   }
 

@@ -39,7 +39,7 @@ app.post("/clients", async (req, res) => {
     isDataCorrect = true;
     // save client data on firebase. If it doesn't save correctly throws and error
     const key = await fbManager.addClient(client);
-    client.key = key
+    client.key = key;
     // save clientKey into firebase userdata
     await fbManager.addClientToUser(uid, key);
     isDataSaved = true;
@@ -107,6 +107,24 @@ app.get("/clients", async (req, res) => {
       res.send(data);
     }
   });
+});
+
+app.delete('/clients', async (req, res) => {
+  try {
+    const uid = req.body.uid;
+    const key = req.query.key as string;
+
+    await fbManager.deleteClient(uid, key);
+
+    const payload = { uid, key };
+    redisPublisher.publish("DELETE_CLIENTS", JSON.stringify(payload));
+    res.status(200);
+    res.send({ message: "Client deleted successfully" });
+  }
+  catch {
+    res.status(500);
+    res.send("Cannot delete client");
+  }
 });
 
 app.listen(5000, () => console.log("Express server listening on port 5000"));

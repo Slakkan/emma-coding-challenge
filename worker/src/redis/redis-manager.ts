@@ -80,6 +80,15 @@ export class RedisManager {
     return this.utils.hsetObs("clients", client.key!, client);
   }
 
+  deleteClient(uid: string, key: string): Observable<number> {
+    this.utils.hdelObs("clients", key).subscribe();
+    return this.utils.hgetObs<AppUser>("users", uid).pipe(switchMap((user) => {
+      if (!user) { throw new Error("Cannot find user to delete"); }
+      const clientKeys = user.clientKeys.filter(clientKey => clientKey !== key);
+      return clientKeys.length ? this.utils.hsetObs("users", uid, user) : this.utils.hdelObs("users", uid);
+    }));
+  }
+
   getClients(uid: string): Observable<AppClient[]> {
     return this.utils.hgetObs<AppUser>("users", uid).pipe(
       switchMap((user) => {
@@ -92,7 +101,9 @@ export class RedisManager {
           return forkJoin(getDataCalls);
         } else {
           return this.firebaseManager.getUserClients(uid).pipe(tap(clients => {
-            this.addClientList(clients, uid);
+            if (clients.length) {
+              this.addClientList(clients, uid);
+            }
           }));
         }
       })
