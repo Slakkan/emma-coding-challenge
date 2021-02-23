@@ -1,13 +1,14 @@
 <div class="container mb-4" (click)="onExpand($event)">
   <div *ngIf="!isExpanded; else expanded" class="client-card row"
     [ngClass]="{'client-card--expanded': animate, 'client-card--inactive': !client.isActive}">
-    <div class="client-card__item col-5" [ngClass]="{'client-card__item--transitioning': isTransitioning}">
-      {{client.firstName}} {{client.lastName}}
+    <div class="client-card__item col-4" [ngClass]="{'client-card__item--transitioning': isTransitioning}">
+      <span class="client-card__span">{{client.firstName}} {{client.lastName}}</span>
     </div>
-    <div class="client-card__item col-5" [ngClass]="{'client-card__item--transitioning': isTransitioning}">
+    <div class="client-card__item col-4" [ngClass]="{'client-card__item--transitioning': isTransitioning}">
       <span class="client-card__span">{{client.country}} / {{client.city}} / {{client.postalCode}}</span>
     </div>
-    <div class="client-card__icons-container col-2 py-0">
+    <div class="client-card__icons-container col-4 py-0">
+      <img (click)="onDelete()" id="client-card-remove" style="width: 24px; height: 24px;" src="/assets/icons/delete-24px.svg" alt="delete">
       <img (click)="onEdit()" id="client-card-edit" style="width: 24px; height: 24px;"
         [src]="client.isActive ? editIcon : editIconWhite" alt="edit">
       <img style="width: 24px; height: 24px;" [src]="client.isActive ? expandMore : expandMoreWhite" alt="show-more">
@@ -30,7 +31,7 @@
           [ngClass]="{'client-card__item--transitioning': isTransitioning}">
           <div class="client-card__title">Lastname</div> {{client.lastName}}
         </div>
-        <div class="client-card__item client-card__item--expanded col-12 col-md-4 p-2"
+        <div class="client-card__item client-card__item--expanded client-card__item--break col-12 col-md-4 p-2"
           [ngClass]="{'client-card__item--transitioning': isTransitioning}">
           <div class="client-card__title">Phone</div>{{client.phone}}
         </div>
@@ -45,7 +46,7 @@
     <!-- SECOND ROW -->
     <div class="col-10" *ngIf="isExpanded">
       <div class="row">
-        <div class="client-card__item client-card__item--expanded client-card__item--email col-12 col-md-4 p-2"
+        <div class="client-card__item client-card__item--expanded client-card__item--break col-12 col-md-4 p-2"
           [ngClass]="{'client-card__item--transitioning': isTransitioning}">
           <div class="client-card__title">Email</div> {{client.email}}
         </div>

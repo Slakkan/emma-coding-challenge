@@ -22,6 +22,10 @@ export class UserService {
     return this.http.put<string>(this.api + '/clients', { client });
   }
 
+  deleteClient(client: AppClient) {
+    return this.http.delete<string>(this.api + '/clients', { params: { key: client.key } });
+  }
+
   getClients(): Observable<AppClient[]> {
     return this.http.get<{ clients: AppClient[]; }>(this.api + '/clients').pipe(
       map(res => res.clients)

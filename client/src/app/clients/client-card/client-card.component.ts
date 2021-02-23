@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AppClient } from 'src/models/client';
 
 import { clientMock } from 'src/mocks/clientsMock';
@@ -12,18 +12,20 @@ import { Router } from '@angular/router';
 export class ClientCardComponent implements OnInit {
   @Input() client: AppClient = clientMock;
 
+  @Output() deleteClient = new EventEmitter<AppClient>();
+
   isExpanded = false;
   animate = false;
   isTransitioning = false;
 
-  editIcon = '/assets/icons/mode_edit-24px.svg'
-  editIconWhite = '/assets/icons/mode_edit-white-24px.svg'
+  editIcon = '/assets/icons/mode_edit-24px.svg';
+  editIconWhite = '/assets/icons/mode_edit-white-24px.svg';
 
-  expandMore = '/assets/icons/expand_more-24px.svg'
-  expandMoreWhite = '/assets/icons/expand_more-white-24px.svg'
+  expandMore = '/assets/icons/expand_more-24px.svg';
+  expandMoreWhite = '/assets/icons/expand_more-white-24px.svg';
 
-  expandLess = '/assets/icons/expand_less-24px.svg'
-  expandLessWhite = '/assets/icons/expand_less-white-24px.svg'
+  expandLess = '/assets/icons/expand_less-24px.svg';
+  expandLessWhite = '/assets/icons/expand_less-white-24px.svg';
 
   constructor(private router: Router) { }
 
@@ -31,12 +33,18 @@ export class ClientCardComponent implements OnInit {
   }
 
   onEdit() {
-    this.router.navigate(['clients', 'edit', this.client.key])
+    this.router.navigate(['clients', 'edit', this.client.key]);
+  }
+
+  onDelete() {
+    this.deleteClient.emit(this.client);
   }
 
   onExpand(event: MouseEvent) {
-    if(event.target instanceof HTMLImageElement && event.target.id === 'client-card-edit') {
-      return
+    const isEdit = event.target instanceof HTMLImageElement && event.target.id === 'client-card-edit';
+    const isRemove = event.target instanceof HTMLImageElement && event.target.id === 'client-card-remove';
+    if (isEdit || isRemove) {
+      return;
     }
 
     this.isTransitioning = true;
@@ -52,7 +60,7 @@ export class ClientCardComponent implements OnInit {
         this.isTransitioning = false;
       }, 0);
     }
-    
-    this.isExpanded = !this.isExpanded
+
+    this.isExpanded = !this.isExpanded;
   }
 }

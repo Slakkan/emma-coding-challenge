@@ -1,3 +1,14 @@
+
+# FEATURE: QUERIES AND DELETE CLIENT
+**version:** 1.02
+
+## Features
+- **Search**: you can now search a client by name
+- **View Active**: you can now filter out inactive clients
+- **App style redesing**: app nows looks better ;)
+- **Delete clients:** click on the trashcan to delete a client
+
+---
 # FEATURE: CLIENTS PAGE
 **version:** 1.01
 

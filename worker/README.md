@@ -1,3 +1,16 @@
+# FEATURE: DELETE-CLIENT
+**version:** 1.02
+
+### Global
+- Added handler for "DELETE_CLIENTS"
+
+### redis-manager
+- Added delete client method
+
+### redis-utils
+- Added hdelObs method
+
+---
 # FEATURE: CLIENTS PAGE
 **version:** 1.01
 

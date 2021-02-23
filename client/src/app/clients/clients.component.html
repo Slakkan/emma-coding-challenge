@@ -4,9 +4,13 @@
       <!-- HEADERS -->
       <app-client-headers [paginationActions]="paginationActions"></app-client-headers>
       <!-- PAGINATION -->
-      <app-pagination [array]="clients" [actions]="paginationActions" (pageChanged)="onPageChanged($event)"></app-pagination>
+      <app-pagination [array]="clients" [actions]="paginationActions" (pageChanged)="onPageChanged($event)">
+      </app-pagination>
       <!-- CARDS -->
-      <app-client-card *ngFor="let client of paginatedClients" [client]="client"></app-client-card>
+      <app-client-card (deleteClient)="onDeleteClient($event)" *ngFor="let client of paginatedClients"
+        [client]="client"></app-client-card>
     </div>
   </div>
 </div>
+
+<app-modal (modalSubmit)="onModalSubmit($event)" *ngIf="clientToDelete" [info]="deleteModalInfo"></app-modal>

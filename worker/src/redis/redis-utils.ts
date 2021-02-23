@@ -5,13 +5,13 @@ import { Observable } from "rxjs";
 // avoid confusion with the firebase keys which will be called key
 
 export class RedisUtils {
-  constructor(private client: RedisClient) {}
+  constructor(private client: RedisClient) { }
 
   hsetObs(hash: string, key: string, value: Object): Observable<number> {
     return new Observable((sub) => {
       this.client.hset(hash, key, JSON.stringify(value), (err, val) => {
         err ? sub.error(err) : sub.next(val);
-        sub.complete()
+        sub.complete();
       });
     });
   }
@@ -21,13 +21,22 @@ export class RedisUtils {
     return new Observable((sub) => {
       this.client.hget(hash, key, (err, val) => {
         let data: T | null;
-        if(val) {
-          data = JSON.parse(val)
+        if (val) {
+          data = JSON.parse(val);
         } else {
-          data = null
+          data = null;
         }
         err ? sub.error(err) : sub.next(data);
-        sub.complete()
+        sub.complete();
+      });
+    });
+  }
+
+  hdelObs(hash: string, key: string): Observable<number> {
+    return new Observable((sub) => {
+      this.client.hdel(hash, key, (err, val) => {
+        err ? sub.error(err) : sub.next(val);
+        sub.complete();
       });
     });
   }

@@ -6,6 +6,7 @@ const redisManager = new RedisManager();
 redisManager.subscriber.subscribe("POST_CLIENTS");
 redisManager.subscriber.subscribe("GET_CLIENTS");
 redisManager.subscriber.subscribe("PUT_CLIENTS");
+redisManager.subscriber.subscribe("DELETE_CLIENTS");
 
 redisManager.subscriber.on("message", (channel, message) => {
   switch (channel) {
@@ -17,6 +18,9 @@ redisManager.subscriber.on("message", (channel, message) => {
       break;
     case "PUT_CLIENTS":
       handlePutClients(message);
+      break;
+    case "DELETE_CLIENTS":
+      handleDeleteClients(message);
       break;
     default:
       break;
@@ -42,4 +46,9 @@ function handleGetClients(message: string) {
     });
     redisManager.publisher.publish(operationId, data);
   });
+}
+
+function handleDeleteClients(message: string) {
+  const { uid, key } = JSON.parse(message);
+  redisManager.deleteClient(uid, key).subscribe();
 }

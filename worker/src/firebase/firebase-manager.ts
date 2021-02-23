@@ -47,7 +47,8 @@ export class FirebaseManager {
     return from(this.clientsRef.get()).pipe(
       map((dataSnapshot) => {
         const clients = dataSnapshot.toJSON() as { [key: string]: AppClient; };
-        return arrayFromFirebaseObject<AppClient>(clients, true);
+        const clientsArray = arrayFromFirebaseObject<AppClient>(clients, true);
+        return clientsArray ? clientsArray : [];
       })
     );
   }

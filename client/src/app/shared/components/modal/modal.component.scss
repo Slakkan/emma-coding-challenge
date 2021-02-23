@@ -1,0 +1,43 @@
+@import "vars";
+
+.overlay {
+  position: absolute;
+  z-index: 1000000;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.modal {
+  font-size: 20px;
+  font-weight: bold;
+  color: $off-white;
+  background: lighten($color: $secondary, $amount: 20);
+  border: 1px solid $off-white;
+  border-radius: 5px;
+  &__info {
+    display: flex;
+    justify-content: center;
+  }
+  &__button {
+    width: 90px;
+    background: $primary;
+    border-radius: 5px;
+    color: $off-white;
+    font-size: 18px;
+    line-height: 24px;
+    font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+    user-select: none;
+    outline: none;
+    border: 1px solid $off-white;
+    cursor: pointer;
+    &:hover {
+      color: $blue;
+      background: darken($color: $primary, $amount: 20);
+    }
+    &:active {
+      color: $off-white;
+    }
+  }
+}
