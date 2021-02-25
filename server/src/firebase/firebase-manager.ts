@@ -80,9 +80,9 @@ export class FirebaseManager {
       if (dataSnapshot.hasChild(uid)) {
         const clientKeys = dataSnapshot.val()[uid].clientKeys as string[];
         clientKeys.push(clientKey);
-        this.usersRef.update({ [uid]: { clientKeys } }).then(resolve);
+        this.usersRef.child(uid).update({ clientKeys }).then(resolve);
       } else {
-        this.usersRef.set({ [uid]: { clientKeys: [clientKey] } }).then(resolve);
+        this.usersRef.child(uid).set({ clientKeys: [clientKey] }).then(resolve);
       }
     });
   }
